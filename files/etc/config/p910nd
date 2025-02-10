@@ -1,0 +1,7 @@
+
+config p910nd
+	option device '/dev/usb/lp0'
+	option port '1'
+	option bidirectional '1'
+	option enabled '1'
+

@@ -1,0 +1,114 @@
+
+config dnsmasq
+	option localise_queries '1'
+	option expandhosts '1'
+	option authoritative '1'
+	option readethers '1'
+	option leasefile '/tmp/dhcp.leases'
+	option localservice '1'
+	option ednspacket_max '1232'
+	option local '/home/'
+	option domain 'home'
+	option noresolv '1'
+	option cachesize '1000'
+	option rebind_protection '0'
+	option port '53'
+	list server '10.10.10.4'
+	list server '1.1.1.1'
+	option filter_aaaa '1'
+
+config dhcp 'lan'
+	option interface 'lan'
+	option dhcpv4 'server'
+	option dhcpv6 'server'
+	option ra 'server'
+	option leasetime '6h'
+	option start '100'
+	option limit '100'
+	option force '1'
+	option ra_useleasetime '1'
+	list ra_flags 'managed-config'
+	list ra_flags 'other-config'
+
+config dhcp 'wan'
+	option interface 'wan'
+	option ignore '1'
+	option ra 'relay'
+	option dhcpv6 'relay'
+	option ndp 'relay'
+	option master '1'
+
+config odhcpd 'odhcpd'
+	option maindhcp '0'
+	option leasefile '/tmp/hosts/odhcpd'
+	option leasetrigger '/usr/sbin/odhcpd-update'
+	option loglevel '4'
+
+config host
+	option name 'tiger'
+	option dns '1'
+	option mac '48:21:0b:2e:6a:5d'
+	option ip '10.10.10.2'
+
+config host
+	option name 'adguard'
+	option dns '1'
+	option mac '66:66:5B:72:19:24'
+	option ip '10.10.10.4'
+
+config host
+	option name 'caja'
+	option dns '1'
+	option mac '22:BB:14:C6:C3:13'
+	option ip '10.10.10.5'
+
+config host
+	option name 'arr'
+	option dns '1'
+	option mac '66:66:85:0F:36:03'
+	option ip '10.10.10.6'
+
+config host
+	option name 'limbo'
+	option dns '1'
+	option mac '66:66:4D:70:6B:44'
+	option ip '10.10.10.10'
+
+config host
+	option name 'BRWACD56483B6E9'
+	option mac 'AC:D5:64:83:B6:E9'
+	option ip '10.10.10.11'
+
+config host
+	option name 'xfce'
+	option dns '1'
+	option mac '66:66:E5:70:FE:D7'
+	option ip '10.10.10.13'
+
+config host
+	option name 'maas'
+	option dns '1'
+	option ip '10.10.10.22'
+	option broadcast '1'
+
+config host
+	option name 'landscape'
+	option ip '10.10.10.23'
+
+config host
+	option name 'win'
+	option mac '66:66:DC:8B:65:FF'
+	option ip '10.10.10.33'
+
+config host
+	option name 'roborock-vacuum-a75'
+	option ip '10.10.10.36'
+	list mac 'B0:4A:39:AA:E4:F9'
+
+config dhcp 'wan6'
+	option interface 'wan6'
+	option ignore '1'
+	option ra 'relay'
+	option dhcpv6 'relay'
+	option ndp 'relay'
+
