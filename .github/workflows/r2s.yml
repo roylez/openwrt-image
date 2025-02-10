@@ -79,11 +79,7 @@ jobs:
           #disabled-services: dhcp
 
       - name: Release
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: latest
-          prerelease: false
-          title: Build ${{ env.date }}
-          files: |
-            bin/*.img.gz
+          files: bin/*.img.gz
+          name: Build ${{ env.date }}
