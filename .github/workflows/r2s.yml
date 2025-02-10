@@ -71,10 +71,8 @@ jobs:
           rootfs-size: 100
           #debug: 1
           #disabled-services: dhcp
-         # extra-image-name: useless
 
-      # - name: Store packages
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: armvirt-32
-      #     path: bin/*
+      - name: Store packages
+        uses: actions/upload-artifact@v3
+        with:
+          path: bin/*
