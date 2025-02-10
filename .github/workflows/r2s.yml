@@ -42,7 +42,7 @@ jobs:
           profile: friendlyarm_nanopi-r2s
           openwrt-version: 24.10.0
           packages: ${{ env.packages }}
-          files: test/files
+          files: files
           rootfs-size: 100
           #debug: 1
           #disabled-services: dhcp

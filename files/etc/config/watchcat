@@ -1,0 +1,10 @@
+
+config watchcat
+	option period '6h'
+	option mode 'ping_reboot'
+	option pinghosts '1.1.1.1'
+	option forcedelay '30'
+	option addressfamily 'ipv4'
+	option pingperiod '30s'
+	option pingsize 'standard'
+
