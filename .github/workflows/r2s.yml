@@ -82,4 +82,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: bin/*.img.gz
+          tag: ${{ env.date }}
           name: Build ${{ env.date }}
