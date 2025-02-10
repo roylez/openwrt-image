@@ -71,7 +71,7 @@ jobs:
             urngd
             wget-ssl
           files: test/files
-          rootfs-size: 10
+          rootfs-size: 64
           #debug: 1
           #disabled-services: dhcp
          # extra-image-name: useless
