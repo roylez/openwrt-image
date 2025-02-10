@@ -82,5 +82,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: bin/*.img.gz
-          tag_name: ${{ env.date }}
-          name: R2S 24.10 image ${{ env.date }}
+          tag_name: v${{ env.date }}
+          name: 'R2S 24.10 ${{ env.date }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
