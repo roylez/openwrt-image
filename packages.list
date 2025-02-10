@@ -1,0 +1,33 @@
+apcupsd
+base-files
+busybox
+ca-bundle
+collectd-mod-apcups collectd-mod-ping collectd-mod-thermal coreutils-dd
+curl
+dnsmasq
+dropbear
+e2fsprogs
+firewall4
+getrandom
+kmod-crypto-acompress kmod-fs-cifs kmod-gpio-button-hotplug kmod-lib-lzo kmod-ppp kmod-pppoe kmod-usb-hid kmod-usb-net-rtl8152
+libf2fs6 liblucihttp-ucode libsmartcols1 libuclient20201210
+logd logrotate
+losetup
+luci luci-app-attendedsysupgrade luci-app-openvpn luci-app-sqm luci-app-statistics luci-app-watchcat luci-lib-ipkg luci-mod-rpc luci-ssl
+mkf2fs
+mtd
+odhcp6c odhcpd-ipv6only
+openssh-sftp-server
+openvpn-openssl
+parted
+partx-utils
+ppp ppp-mod-pppoe
+procd procd-seccomp procd-ujail
+resize2fs
+tailscale
+uboot-envtools
+uci
+umdns
+urandom-seed
+urngd
+wget-ssl
