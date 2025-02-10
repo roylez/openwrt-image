@@ -82,7 +82,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: bin/*.img.gz
-          tag_name: ${date}
-          name: '24.10 build ${date}'
+          tag_name: ${{ env.date }}
+          name: '24.10 build ${{ env.date }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
