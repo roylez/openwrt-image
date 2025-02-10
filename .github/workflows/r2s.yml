@@ -18,61 +18,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-
     steps:
       - name: Get current date
-        id: date
         run: |
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+      - name: Get packages to be installed
+        run: |
+          echo "packages=$(cat packages.list)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
 
-      # - uses: robinraju/release-downloader@v1.8
-      #   with:
-      #     repository: "izer-xyz/librespot-openwrt"
-      #     latest: true
-      #     fileName: "*.ipk"
-      #     out-file-path: "packages"
+      - uses: robinraju/release-downloader@v1.8
+        with:
+          repository: "jerrykuku/luci-theme-argon"
+          latest: true
+          fileName: "*.ipk"
+          out-file-path: "packages"
 
       - uses: izer-xyz/openwrt-imagebuilder-action@main
         with:
           image: rockchip-armv8
           profile: friendlyarm_nanopi-r2s
           openwrt-version: 24.10.0
-          packages: >-
-            apcupsd
-            base-files
-            busybox
-            ca-bundle
-            collectd-mod-apcups collectd-mod-ping collectd-mod-thermal coreutils-dd
-            curl
-            dnsmasq
-            dropbear
-            e2fsprogs
-            firewall4
-            getrandom
-            kmod-crypto-acompress kmod-fs-cifs kmod-gpio-button-hotplug kmod-lib-lzo kmod-ppp kmod-pppoe kmod-usb-hid kmod-usb-net-rtl8152
-            libf2fs6 liblucihttp-ucode libsmartcols1 libuclient20201210
-            logd logrotate
-            losetup
-            luci luci-app-attendedsysupgrade luci-app-openvpn luci-app-sqm luci-app-statistics luci-app-watchcat luci-lib-ipkg luci-mod-rpc luci-ssl
-            mkf2fs
-            mtd
-            odhcp6c odhcpd-ipv6only
-            openssh-sftp-server
-            openvpn-openssl
-            parted
-            partx-utils
-            ppp ppp-mod-pppoe
-            procd procd-seccomp procd-ujail
-            resize2fs
-            tailscale
-            uboot-envtools
-            uci
-            umdns
-            urandom-seed
-            urngd
-            wget-ssl
+          packages: ${{ env.packages }}
           files: test/files
           rootfs-size: 100
           #debug: 1
