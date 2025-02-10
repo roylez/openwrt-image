@@ -18,7 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+
     steps:
+      - name: Get current date
+        id: date
+        run: |
+          echo "{date}={$(date +'%Y-%m-%d')}" >> $GITHUB_STATE
+
       - uses: actions/checkout@v3
 
       # - uses: robinraju/release-downloader@v1.8
@@ -72,7 +78,12 @@ jobs:
           #debug: 1
           #disabled-services: dhcp
 
-      - name: Store packages
-        uses: actions/upload-artifact@v4
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          path: bin/*
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: latest
+          prerelease: false
+          title: Build ${{ env.date }}
+          files: |
+            bin/*.img.gz
