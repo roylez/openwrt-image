@@ -19,15 +19,14 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Get current date
+      - uses: actions/checkout@v3
+
+      - name: Get variables
         run: |
           echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      - name: Get packages to be installed
-        run: |
-          echo "packages=$(cat packages.list)" >> $GITHUB_ENV
-
-      - uses: actions/checkout@v3
+          PACKAGES="$(cat packages.list |tr '\n' ' ')"
+          echo "packages=$PACKAGES" >> $GITHUB_ENV
 
       - uses: robinraju/release-downloader@v1.8
         with:
