@@ -32,3 +32,4 @@ urandom-seed
 urngd
 wget-ssl
 luci-theme-argon
+banip luci-app-banip
