@@ -32,7 +32,7 @@ jobs:
         with:
           repository: "jerrykuku/luci-theme-argon"
           latest: true
-          fileName: "*.ipk"
+          fileName: "*.?pk"
           out-file-path: "packages"
 
       - uses: izer-xyz/openwrt-imagebuilder-action@main
