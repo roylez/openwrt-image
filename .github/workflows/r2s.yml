@@ -28,11 +28,12 @@ jobs:
           PACKAGES="$(cat packages.list |tr '\n' ' ')"
           echo "packages=$PACKAGES" >> $GITHUB_ENV
 
-      - uses: robinraju/release-downloader@v1.8
+      - uses: robinraju/release-downloader@v1.12
         with:
           repository: "jerrykuku/luci-theme-argon"
-          latest: true
-          fileName: "*.?pk"
+          # latest: true
+          tag: v2.3.2
+          fileName: "*.ipk"
           out-file-path: "packages"
 
       - uses: izer-xyz/openwrt-imagebuilder-action@main
