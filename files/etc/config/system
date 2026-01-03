@@ -8,8 +8,8 @@ config system
 	option zonename 'Australia/Brisbane'
 	option log_proto 'udp'
 	option conloglevel '7'
-	option cronloglevel '8'
-	option log_file '/var/log/system.log'
+	option cronloglevel '7'
+	option log_file '/tmp/system.log'
 
 config timeserver 'ntp'
 	list server '0.openwrt.pool.ntp.org'
