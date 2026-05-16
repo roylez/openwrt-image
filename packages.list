@@ -41,7 +41,6 @@ odhcp6c
 odhcpd-ipv6only
 openssh-sftp-server
 openvpn-openssl
-apk-openssl
 parted
 partx-utils
 ppp
