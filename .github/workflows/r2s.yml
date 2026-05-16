@@ -28,19 +28,19 @@ jobs:
           PACKAGES="$(cat packages.list |tr '\n' ' ')"
           echo "packages=$PACKAGES" >> $GITHUB_ENV
 
-      - uses: robinraju/release-downloader@v1.12
+      - uses: robinraju/release-downloader@v1.13
         with:
           repository: "jerrykuku/luci-theme-argon"
           # latest: true
           tag: v2.3.2
-          fileName: "*.ipk"
+          fileName: "*.?pk"
           out-file-path: "packages"
 
       - uses: izer-xyz/openwrt-imagebuilder-action@main
         with:
           image: rockchip-armv8
           profile: friendlyarm_nanopi-r2s
-          openwrt-version: 24.10.0
+          openwrt-version: 25.12.4
           packages: ${{ env.packages }}
           files: files
           rootfs-size: 100
@@ -52,6 +52,6 @@ jobs:
         with:
           files: bin/*.img.gz
           tag_name: ${{ env.date }}
-          name: '24.10 build ${{ env.date }}'
+          name: '25.12.4 build ${{ env.date }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
