@@ -50,7 +50,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2.3.2
         with:
-          files: bin/*.img.gz
+          files: bin/**/*.img.gz
           tag_name: ${{ env.date }}
           name: '25.12.4 build ${{ env.date }}'
         env:
