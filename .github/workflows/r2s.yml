@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  OPENWRT_VERSION: 25.12.4
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,7 +43,7 @@ jobs:
         with:
           image: rockchip-armv8
           profile: friendlyarm_nanopi-r2s
-          openwrt-version: 25.12.4
+          openwrt-version: ${{ env.OPENWRT_VERSION }}
           packages: ${{ env.packages }}
           files: files
           rootfs-size: 100
@@ -52,6 +55,6 @@ jobs:
         with:
           files: bin/**/*.img.gz
           tag_name: ${{ env.date }}
-          name: '25.12.4 build ${{ env.date }}'
+          name: '${{ env.OPENWRT_VERSION }} build ${{ env.date }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
