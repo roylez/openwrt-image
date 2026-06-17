@@ -1,0 +1,49 @@
+#!/bin/sh
+# /etc/rc.local
+
+BACKUP_URL="http://10.10.10.3:7070/backup-R2S.tar.gz"
+HASH_FILE="/root/.backup-hash"
+PENDING_FLAG="/root/.restore-pending"
+
+logger -t config-restore "automated config restoration starting"
+
+# 恢复后的重启 → 清 flag，跳过
+if [ -f "$PENDING_FLAG" ]; then
+  logger -t config-restore "post-restore reboot detected, clearing flag"
+  rm -f "$PENDING_FLAG"
+else
+  # 等网络
+  for i in 1 2 3 4 5; do
+    if ping -c 1 -W 1 10.10.10.3 >/dev/null 2>&1; then
+      logger -t config-restore "network ready after ${i} attempts"
+      break
+    fi
+    logger -t config-restore "network not ready, attempt ${i}/5"
+    sleep 2
+  done
+
+  logger -t config-restore "downloading ${BACKUP_URL}"
+  if curl -s -f -o /tmp/restore.tar.gz "$BACKUP_URL"; then
+    NEW_HASH=$(md5sum /tmp/restore.tar.gz | cut -d' ' -f1)
+    OLD_HASH=$(cat "$HASH_FILE" 2>/dev/null)
+    SIZE=$(ls -l /tmp/restore.tar.gz 2>/dev/null | awk '{print $5}')
+
+    logger -t config-restore "downloaded ${SIZE} bytes, hash=${NEW_HASH}"
+
+    if [ "$NEW_HASH" != "$OLD_HASH" ]; then
+      logger -t config-restore "new backup detected, restoring..."
+      sysupgrade -r /tmp/restore.tar.gz
+      echo "$NEW_HASH" > "$HASH_FILE"
+      touch "$PENDING_FLAG"
+      logger -t config-restore "restore done, rebooting"
+      reboot
+    else
+      logger -t config-restore "hash unchanged, skipping"
+    fi
+  else
+    logger -t config-restore "download failed, skipping"
+  fi
+fi
+
+logger -t config-restore "automated config restoration done"
+exit 0
