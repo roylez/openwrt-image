@@ -1,5 +1,6 @@
 base-files
 ca-bundle
+collectd-mod-nut
 collectd-mod-ping
 collectd-mod-thermal
 coreutils-dd
