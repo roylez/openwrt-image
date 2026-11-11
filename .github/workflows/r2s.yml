@@ -49,6 +49,12 @@ jobs:
           rootfs-size: 100
           #debug: 1
           #disabled-services: dhcp
+      - name: Add build date to artifact names
+        run: |
+          sudo chmod -R a+rw bin
+          for f in bin/targets/*/*/*.img.gz; do
+            mv "$f" "$(echo "$f" | sed "s/-rockchip/-${date//-/}-rockchip/")"
+          done
 
       - name: Release
         uses: softprops/action-gh-release@v2.3.2
