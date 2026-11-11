@@ -26,11 +26,15 @@ jobs:
 
       - name: Get variables
         run: |
-          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          build_date=$(date +'%Y-%m-%d')
+          echo "date=$build_date" >> $GITHUB_ENV
+          # the upgrade script compares against this; baked into the image
+          # because ext4 sysupgrade rewrites the whole filesystem
+          mkdir -p files/root/bin
+          printf '%s\n' "${build_date//-/}" > files/root/bin/.build-date
 
           PACKAGES="$(cat packages.list |tr '\n' ' ')"
           echo "packages=$PACKAGES" >> $GITHUB_ENV
-
       - uses: robinraju/release-downloader@v1.13
         with:
           repository: "jerrykuku/luci-theme-argon"
