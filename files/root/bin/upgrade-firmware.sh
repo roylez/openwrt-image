@@ -1,9 +1,10 @@
 #!/bin/sh
 # Reflash to the newest release image from github.com/roylez/openwrt-image,
 # but only when the release build date (YYYYMMDD in the asset filename) is
-# newer than the date recorded in /root/bin/.build-date. CI bakes that file
-# into each image; on squashfs it also persists across sysupgrade via
-# /etc/sysupgrade.conf, on ext4 every flash rewrites the whole filesystem.
+# newer than the running image's own build date in /etc/build-date, which
+# CI bakes into every image. Reading the image's own date instead of
+# persisting a marker means config backups can never make a newer image
+# look outdated.
 #
 # Written for luci-app-commands: every outcome prints one self-describing
 # "upgrade-firmware:" line. Exit codes:
@@ -16,7 +17,7 @@
 # 6  downloaded image failed sha256 verification
 
 REPO=roylez/openwrt-image
-DATE_FILE=/root/bin/.build-date
+BUILD_DATE_FILE=/etc/build-date
 IMG=/tmp/firmware.img.gz
 
 die() {
@@ -34,9 +35,9 @@ DATE=$(printf '%s\n' "$json" |
 	cut -d- -f3)
 [ -n "$DATE" ] || die 2 "no build date found in release assets"
 
-LAST=$(cat "$DATE_FILE" 2>/dev/null || echo 0)
-if [ "$DATE" -le "$LAST" ]; then
-	echo "upgrade-firmware: up to date (installed $LAST, latest release $DATE)"
+RUNNING=$(cat "$BUILD_DATE_FILE" 2>/dev/null || echo 0)
+if [ "$DATE" -le "$RUNNING" ]; then
+	echo "upgrade-firmware: up to date (installed $RUNNING, latest release $DATE)"
 	exit 0
 fi
 
@@ -85,9 +86,7 @@ HAVE=$(sha256sum "$IMG" | cut -d' ' -f1)
 	die 6 "sha256 mismatch (expected $WANT, got $HAVE; $IMG deleted)"
 }
 
-# Record the date as the last write point before flashing: sysupgrade
-# reboots. If the flash itself fails the newer date is already recorded;
-# rerunning then just re-downloads and reflashes.
-echo "$DATE" > "$DATE_FILE"
+# After sysupgrade reboots into the new image, that image carries its own
+# /etc/build-date, so no marker write is needed here.
 echo "upgrade-firmware: image verified, flashing build $DATE; device will reboot"
 sysupgrade "$IMG"

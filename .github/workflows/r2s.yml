@@ -28,10 +28,11 @@ jobs:
         run: |
           build_date=$(date +'%Y-%m-%d')
           echo "date=$build_date" >> $GITHUB_ENV
-          # the upgrade script compares against this; baked into the image
-          # because ext4 sysupgrade rewrites the whole filesystem
-          mkdir -p files/root/bin
-          printf '%s\n' "${build_date//-/}" > files/root/bin/.build-date
+          # the running image's own build date, read by the upgrade script
+          # to decide "up to date". Kept in /etc (not /root/bin) so config
+          # backups can never restore a stale date over a newer image.
+          # YYYYMMDD, matching the date in release asset filenames.
+          printf '%s\n' "${build_date//-/}" > files/etc/build-date
 
           PACKAGES="$(cat packages.list |tr '\n' ' ')"
           echo "packages=$PACKAGES" >> $GITHUB_ENV
