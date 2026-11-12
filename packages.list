@@ -27,6 +27,7 @@ logrotate
 losetup
 luci
 luci-app-attendedsysupgrade
+luci-app-commands
 luci-app-nut
 luci-app-openvpn
 luci-app-sqm

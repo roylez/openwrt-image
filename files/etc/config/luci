@@ -40,3 +40,6 @@ config internal 'diag'
 	option ping 'openwrt.org'
 	option route 'openwrt.org'
 
+config command 'upgrade_firmware'
+	option name 'Upgrade firmware'
+	option command '/root/bin/upgrade-firmware.sh'
